@@ -1,30 +1,31 @@
 package org.springframework.social.salesforce.api.impl.json;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.social.salesforce.api.ResultItem;
-
 import java.util.List;
 
+import org.springframework.social.salesforce.api.ResultItem;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- * {@see org.springframework.social.salesforce.api.QueryResult} Mixin for api v23.0.
- *
+ * Mixin for {@link org.springframework.social.salesforce.api.QueryResult}.
+ * 
  * @author Umut Utkan
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QueryResultMixin {
-
-    @JsonCreator
-    QueryResultMixin(
-            @JsonProperty("totalSize") int totalSize,
-            @JsonProperty("done") boolean done) {
-    }
 
     @JsonProperty("nextRecordsUrl")
     String nextRecordsUrl;
 
     @JsonProperty("records")
     List<ResultItem> records;
+
+    @JsonCreator
+    QueryResultMixin(
+            @JsonProperty("totalSize") final int totalSize,
+            @JsonProperty("done") final boolean done) {
+    }
 
 }

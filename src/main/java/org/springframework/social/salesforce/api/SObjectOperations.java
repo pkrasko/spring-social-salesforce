@@ -11,16 +11,56 @@ import java.util.Map;
  */
 public interface SObjectOperations {
 
-    public List<Map> getSObjects();
+    /**
+     * List all the SObjects.
+     * 
+     * @return SObjects
+     */
+    List<Map> getSObjects();
 
-    public SObjectSummary getSObject(String name);
+    /**
+     * Fetch the summary for a specific SObject.
+     * 
+     * @param name The SObject name
+     * @return summary
+     */
+    SObjectSummary getSObject(String name);
 
-    public SObjectDetail describeSObject(String name);
+    /**
+     * Fetch the detail for a specific SObject.
+     * 
+     * @param name The SObject name
+     * @return detail
+     */
+    SObjectDetail describeSObject(String name);
 
-    public Map getRow(String name, String id, String... fields);
+    /**
+     * Fetch a specific SObject row based on the name, identifier, and return fields.
+     * 
+     * @param name The SObject name
+     * @param id The SOBject row identifier
+     * @param fields The SObject fields to return
+     * @return Map
+     */
+    Map getRow(String name, String id, String... fields);
 
-    public InputStream getBlob(String name, String id, String field);
+    /**
+     * Fetch a blob of data from Salesforce.
+     * 
+     * @param name The SObject name
+     * @param id The row identifier
+     * @param field The blob field name
+     * @return inputstream
+     */
+    InputStream getBlob(String name, String id, String field);
 
+    /**
+     * Create a new row for an SObject.
+     * 
+     * @param name The SObject name
+     * @param fields A map containing the field name and value
+     * @return SObject
+     */
     Map<?, ?> create(String name, Map<String, String> fields);
 
 }

@@ -1,6 +1,8 @@
 package org.springframework.social.salesforce.api;
 
 /**
+ * Defines a record type.
+ * 
  * @author Umut Utkan
  */
 public class RecordTypeInfo {
@@ -13,29 +15,27 @@ public class RecordTypeInfo {
 
     private boolean defaultRecordTypeMapping;
 
-
-    public RecordTypeInfo(String name, boolean available, String recordTypeId, boolean defaultRecordTypeMapping) {
+    public RecordTypeInfo(final String name, final boolean available, final String recordTypeId, final boolean defaultRecordTypeMapping) {
         this.name = name;
         this.available = available;
         this.recordTypeId = recordTypeId;
         this.defaultRecordTypeMapping = defaultRecordTypeMapping;
     }
 
-
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public boolean isAvailable() {
-        return available;
+        return this.available;
     }
 
     public String getRecordTypeId() {
-        return recordTypeId;
+        return this.recordTypeId;
     }
 
     public boolean isDefaultRecordTypeMapping() {
-        return defaultRecordTypeMapping;
+        return this.defaultRecordTypeMapping;
     }
 
 }

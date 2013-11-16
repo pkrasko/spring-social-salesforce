@@ -1,11 +1,11 @@
 package org.springframework.social.salesforce.api.impl.json;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@see org.springframework.social.salesforce.api.ApiVersion} Mixin for api v23.0.
+ * Mixin for {@link org.springframework.social.salesforce.api.ApiVersion}.
  *
  * @author Umut Utkan
  */
@@ -14,9 +14,9 @@ public class ApiVersionMixin {
 
     @JsonCreator
     ApiVersionMixin(
-            @JsonProperty("version") String version,
-            @JsonProperty("label") String label,
-            @JsonProperty("url") String url) {
+            @JsonProperty("version") final String version,
+            @JsonProperty("label") final String label,
+            @JsonProperty("url") final String url) {
     }
 
 }

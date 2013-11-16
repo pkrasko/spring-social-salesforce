@@ -1,9 +1,10 @@
 package org.springframework.social.salesforce.api;
 
-import org.codehaus.jackson.JsonNode;
+import java.util.List;
+
 import org.springframework.social.ApiBinding;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Specifies operations performed on Salesforce.
@@ -12,24 +13,88 @@ import java.util.List;
  */
 public interface Salesforce extends ApiBinding {
 
-    public ApiOperations apiOperations();
+    /**
+     * API Operations.
+     * 
+     * @return API operations
+     */
+    ApiOperations apiOperations();
 
-    public ChatterOperations chatterOperations();
+    /**
+     * Chatter Operations.
+     * 
+     * @return Chatter operations
+     */
+    ChatterOperations chatterOperations();
 
-    public QueryOperations queryOperations();
+    /**
+     * Query Operations.
+     * 
+     * @return Query operations
+     */
+    QueryOperations queryOperations();
 
-    public RecentOperations recentOperations();
+    /**
+     * Recent Operations.
+     * 
+     * @return Recent operations
+     */
+    RecentOperations recentOperations();
 
-    public SearchOperations searchOperations();
+    /**
+     * Search Operations.
+     * 
+     * @return Search operations
+     */
+    SearchOperations searchOperations();
 
-    public SObjectOperations sObjectsOperations();
+    /**
+     * SObject Operations.
+     * 
+     * @return SObject operations
+     */
+    SObjectOperations sObjectsOperations();
+    
+    /**
+     * Standard object operations.
+     * 
+     * @return Standard object operations.
+     */
+    StandardObjectOperations standardObjectOperations();
 
-    public <T> List<T> readList(JsonNode jsonNode, Class<T> type);
+    /**
+     * Unmarshall json nodes to the specified type.
+     * 
+     * @param jsonNode The json node
+     * @param type The object type.
+     * @param <T> The object type
+     * @return List of objects
+     */
+    <T> List<T> readList(JsonNode jsonNode, Class<T> type);
 
-    public <T> T readObject(JsonNode jsonNode, Class<T> type);
+    /**
+     * Unmarshall a json node to the specified type.
+     * 
+     * @param jsonNode the json node
+     * @param type The object type.
+     * @param <T> The object type
+     * @return Object
+     */
+    <T> T readObject(JsonNode jsonNode, Class<T> type);
 
-    public String getBaseUrl();
+    /**
+     * Retrieve the base url - the instance url plus 
+     * the base path for the API level.
+     * 
+     * @return Base url
+     */
+    String getBaseUrl();
 
-    public String getInstanceUrl();
+    /**
+     * Retrieve the Salesforce instance url for the connection.
+     * 
+     * @return Salesforce instance/cluster url.
+     */
+    String getInstanceUrl();
 
 }

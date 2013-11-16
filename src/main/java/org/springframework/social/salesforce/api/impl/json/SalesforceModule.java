@@ -1,8 +1,26 @@
 package org.springframework.social.salesforce.api.impl.json;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.module.SimpleModule;
-import org.springframework.social.salesforce.api.*;
+import org.springframework.social.salesforce.api.ApiProfile;
+import org.springframework.social.salesforce.api.ApiVersion;
+import org.springframework.social.salesforce.api.ChatterStatus;
+import org.springframework.social.salesforce.api.Field;
+import org.springframework.social.salesforce.api.Identity;
+import org.springframework.social.salesforce.api.Organization;
+import org.springframework.social.salesforce.api.Photo;
+import org.springframework.social.salesforce.api.PickListEntry;
+import org.springframework.social.salesforce.api.QueryResult;
+import org.springframework.social.salesforce.api.RecordTypeInfo;
+import org.springframework.social.salesforce.api.Relationship;
+import org.springframework.social.salesforce.api.ResultItem;
+import org.springframework.social.salesforce.api.SObjectDetail;
+import org.springframework.social.salesforce.api.SObjectSummary;
+import org.springframework.social.salesforce.api.SalesforceProfile;
+import org.springframework.social.salesforce.api.Status;
+import org.springframework.social.salesforce.api.User;
+import org.springframework.social.salesforce.api.UserPhoto;
+
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
  * Jackson module for api version v23.0.
@@ -11,12 +29,14 @@ import org.springframework.social.salesforce.api.*;
  */
 public class SalesforceModule extends SimpleModule {
 
+    private static final long serialVersionUID = 1L;
+
     public SalesforceModule() {
-        super("SalesforceModule", new Version(23, 0, 0, null));
+        super("SalesforceModule", new Version(29, 0, 0, null, "org.springframework.social", "spring-social-salesforce")); //SUPPRESS CHECKSTYLE fixed API version
     }
 
     @Override
-    public void setupModule(SetupContext context) {
+    public void setupModule(final SetupContext context) {
         super.setupModule(context);
 
         context.setMixInAnnotations(ApiVersion.class, ApiVersionMixin.class);
@@ -31,6 +51,12 @@ public class SalesforceModule extends SimpleModule {
         context.setMixInAnnotations(SObjectDetail.class, SObjectDetailMixin.class);
         context.setMixInAnnotations(QueryResult.class, QueryResultMixin.class);
         context.setMixInAnnotations(ResultItem.class, ResultItemMixin.class);
+        context.setMixInAnnotations(Organization.class, OrganizationMixin.class);
+        context.setMixInAnnotations(User.class, UserMixin.class);
+        context.setMixInAnnotations(Identity.class, IdentityMixin.class);
+        context.setMixInAnnotations(ApiProfile.class, ApiProfileMixin.class);
+        context.setMixInAnnotations(UserPhoto.class, UserPhotoMixin.class);
+        context.setMixInAnnotations(ChatterStatus.class, ChatterStatusMixin.class);
     }
 
 }

@@ -1,11 +1,11 @@
 package org.springframework.social.salesforce.api.impl.json;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * {@see org.springframework.social.salesforce.api.PickListEntry} Mixin for api v23.0.
+ * Mixin for {@link org.springframework.social.salesforce.api.PickListEntry}.
  *
  * @author Umut Utkan
  */
@@ -14,10 +14,10 @@ public class PickListEntryMixin {
 
     @JsonCreator
     PickListEntryMixin(
-            @JsonProperty("value") String value,
-            @JsonProperty("label") String label,
-            @JsonProperty("active") boolean active,
-            @JsonProperty("defaultValue") boolean defaultValue) {
+            @JsonProperty("value") final String value,
+            @JsonProperty("label") final String label,
+            @JsonProperty("active") final boolean active,
+            @JsonProperty("defaultValue") final boolean defaultValue) {
     }
 
 }

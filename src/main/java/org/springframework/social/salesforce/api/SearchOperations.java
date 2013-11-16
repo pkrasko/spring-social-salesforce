@@ -9,6 +9,12 @@ import java.util.List;
  */
 public interface SearchOperations {
 
+    /**
+     * Query based search.
+     * 
+     * @param soslQuery The search query
+     * @return List of results.
+     */
     List<ResultItem> search(String soslQuery);
 
 }

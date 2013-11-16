@@ -1,11 +1,12 @@
 package org.springframework.social.salesforce.api;
 
-import java.io.Serializable;
 
 /**
+ * Describes a particular API version.
+ * 
  * @author Umut Utkan
  */
-public class ApiVersion implements Serializable {
+public class ApiVersion {
 
     private String label;
 
@@ -13,33 +14,38 @@ public class ApiVersion implements Serializable {
 
     private String url;
 
-
-    public ApiVersion(String version, String label, String url) {
+    public ApiVersion(final String version, final String label, final String url) {
         this.version = version;
         this.label = label;
         this.url = url;
     }
 
-
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public String getVersion() {
-        return version;
+        return this.version;
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return "ApiVersion{" +
-                "label='" + label + '\'' +
-                ", version='" + version + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+        final StringBuilder builder = new StringBuilder();
+        builder.append("ApiVersion [label=");
+        builder.append(this.label);
+        builder.append(", version=");
+        builder.append(this.version);
+        builder.append(", url=");
+        builder.append(this.url);
+        builder.append("]");
+        return builder.toString();
     }
-
 }

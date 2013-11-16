@@ -1,24 +1,21 @@
 package org.springframework.social.salesforce.api;
 
-import java.io.Serializable;
 
 /**
+ * Describes a profile for a user.
+ * 
  * @author Umut Utkan
  */
-public class SalesforceProfile implements Serializable {
+public class SalesforceProfile {
 
     private String id;
-
     private String email;
-
     private String firstName;
-
     private String lastName;
-
     private Photo photo;
 
 
-    public SalesforceProfile(String id, String firstName, String lastName, String email) {
+    public SalesforceProfile(final String id, final String firstName, final String lastName, final String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,19 +24,19 @@ public class SalesforceProfile implements Serializable {
 
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public Photo getPhoto() {

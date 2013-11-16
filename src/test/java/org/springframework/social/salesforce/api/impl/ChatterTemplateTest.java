@@ -1,56 +1,56 @@
 package org.springframework.social.salesforce.api.impl;
 
-import org.junit.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.social.salesforce.api.SalesforceProfile;
 import org.springframework.social.salesforce.api.Status;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.social.test.client.RequestMatchers.*;
-import static org.springframework.social.test.client.ResponseCreators.withResponse;
+import static org.springframework.social.test.client.ResponseCreators.*;
 
 /**
+ * Chatter template test.
+ * 
  * @author Umut Utkan
  */
 public class ChatterTemplateTest extends AbstractSalesforceTest {
 
     @Test
     public void getProfile() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me"))
-                .andExpect(method(GET))
-                .andRespond(withResponse(loadResource("profile.json"), responseHeaders));
-        SalesforceProfile profile = salesforce.chatterOperations().getUserProfile();
-        assertEquals("Umut Utkan", profile.getFullName());
-        assertEquals("umut.utkan@foo.com", profile.getEmail());
-        assertEquals("005A0000001cRuvIAE", profile.getId());
-        assertEquals("005A0000001cRuvIAE", profile.getUsername());
-        assertEquals("Umut Utkan", profile.getFullName());
-        assertEquals("https://c.na7.content.force.com/profilephoto/005/F", profile.getPhoto().getLargePhotoUrl());
-        assertEquals("https://c.na7.content.force.com/profilephoto/005/T", profile.getPhoto().getSmallPhotoUrl());
+        this.mockServer.expect(requestTo(VERSION_URL + "/chatter/users/me"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withResponse(loadResource("profile.json"), this.responseHeaders));
+        final SalesforceProfile profile = this.salesforce.chatterOperations().getUserProfile();
+        assertThat(profile.getFullName(), equalTo("Umut Utkan"));
+        assertThat(profile.getEmail(), equalTo("umut.utkan@foo.com"));
+        assertThat(profile.getId(), equalTo("005A0000001cRuvIAE"));
+        assertThat(profile.getUsername(), equalTo("005A0000001cRuvIAE"));
+        assertThat(profile.getPhoto().getLargePhotoUrl(), equalTo("https://c.na7.content.force.com/profilephoto/005/F"));
+        assertThat(profile.getPhoto().getSmallPhotoUrl(), equalTo("https://c.na7.content.force.com/profilephoto/005/T"));
     }
 
     @Test
     public void getStatus() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me/status"))
-                .andExpect(method(GET))
-                .andRespond(withResponse(loadResource("chatter-status.json"), responseHeaders));
+        this.mockServer.expect(requestTo(VERSION_URL + "/chatter/users/me/status"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withResponse(loadResource("chatter-status.json"), this.responseHeaders));
 
-        Status status = salesforce.chatterOperations().getStatus();
-        assertNotNull(status);
-        assertEquals("I am also working on #hede", status.getText());
+        final Status status = this.salesforce.chatterOperations().getStatus();
+        assertThat(status, notNullValue());
+        assertThat(status.getText(), equalTo("I am also working on #hede"));
     }
 
     @Test
     public void updateStatus() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me/status"))
-                .andExpect(method(POST))
+        this.mockServer.expect(requestTo(VERSION_URL + "/chatter/users/me/status"))
+                .andExpect(method(HttpMethod.POST))
                 .andExpect(body("text=Updating+status+via+%23spring-social-salesforce%21"))
-                .andRespond(withResponse(loadResource("chatter-status.json"), responseHeaders));
+                .andRespond(withResponse(loadResource("chatter-status.json"), this.responseHeaders));
 
-        Status status = salesforce.chatterOperations().updateStatus("Updating status via #spring-social-salesforce!");
-        assertNotNull(status);
+        final Status status = this.salesforce.chatterOperations().updateStatus("Updating status via #spring-social-salesforce!");
+        assertThat(status, notNullValue());
     }
 
 }

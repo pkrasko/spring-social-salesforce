@@ -1,6 +1,8 @@
 package org.springframework.social.salesforce.api;
 
 /**
+ * Describes a picklist entry within Salesforce.
+ * 
  * @author Umut Utkan
  */
 public class PickListEntry {
@@ -17,7 +19,7 @@ public class PickListEntry {
     //private String validFor;
 
 
-    public PickListEntry(String value, String label, boolean active, boolean defaultValue) {
+    public PickListEntry(final String value, final String label, final boolean active, final boolean defaultValue) {
         this.value = value;
         this.active = active;
         this.label = label;
@@ -26,19 +28,19 @@ public class PickListEntry {
 
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     public boolean isActive() {
-        return active;
+        return this.active;
     }
 
     public String getLabel() {
-        return label;
+        return this.label;
     }
 
     public boolean isDefaultValue() {
-        return defaultValue;
+        return this.defaultValue;
     }
 
 }

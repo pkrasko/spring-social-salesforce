@@ -1,32 +1,35 @@
 package org.springframework.social.salesforce.api.impl;
 
-import org.junit.Test;
-import org.springframework.social.salesforce.api.ResultItem;
-
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.social.test.client.RequestMatchers.method;
-import static org.springframework.social.test.client.RequestMatchers.requestTo;
-import static org.springframework.social.test.client.ResponseCreators.withResponse;
+import org.springframework.http.HttpMethod;
+import org.springframework.social.salesforce.api.ResultItem;
+import org.testng.annotations.Test;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+import static org.springframework.social.test.client.RequestMatchers.*;
+import static org.springframework.social.test.client.ResponseCreators.*;
 
 /**
+ * Test cases for the recent template.
+ * 
  * @author Umut Utkan
  */
 public class RecentTemplateTest extends AbstractSalesforceTest {
 
     @Test
     public void search() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/recent"))
-                .andExpect(method(GET))
-                .andRespond(withResponse(loadResource("recent.json"), responseHeaders));
-        List<ResultItem> items = salesforce.recentOperations().recent();
-        assertEquals(9, items.size());
-        assertEquals("User", items.get(0).getType());
-        assertEquals("/services/data/v23.0/sobjects/User/005A0000001cRuvIAE", items.get(0).getUrl());
-        assertEquals("005A0000001cRuvIAE", items.get(0).getAttributes().get("Id"));
-        assertEquals("Umut Utkan", items.get(0).getAttributes().get("Name"));
+        this.mockServer.expect(requestTo(VERSION_URL + "/recent"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withResponse(loadResource("recent.json"), this.responseHeaders));
+        final List<ResultItem> items = this.salesforce.recentOperations().recent();
+        assertThat(items, hasSize(9));
+        assertThat(items.get(0).getType(), equalTo("User"));
+        assertThat(items.get(0).getUrl(), equalTo("/services/data/v23.0/sobjects/User/005A0000001cRuvIAE"));
+        assertThat((String)items.get(0).getAttributes().get("Id"), equalTo("005A0000001cRuvIAE"));
+        assertThat((String)items.get(0).getAttributes().get("Name"), equalTo("Umut Utkan"));
     }
 
 }

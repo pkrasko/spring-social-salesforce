@@ -1,6 +1,9 @@
 package org.springframework.social.salesforce.api.impl;
 
-import org.codehaus.jackson.JsonNode;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.social.salesforce.SalesforceConstants.Endpoints;
 import org.springframework.social.salesforce.api.ChatterOperations;
 import org.springframework.social.salesforce.api.Salesforce;
 import org.springframework.social.salesforce.api.SalesforceProfile;
@@ -9,27 +12,22 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Default implementation of ChatterOperations.
- *
+ * 
  * @author Umut Utkan
  */
 public class ChatterTemplate extends AbstractSalesForceOperations<Salesforce> implements ChatterOperations {
 
     private RestTemplate restTemplate;
 
-
-    public ChatterTemplate(Salesforce api, RestTemplate restTemplate) {
+    public ChatterTemplate(final Salesforce api, final RestTemplate restTemplate) {
         super(api);
         this.restTemplate = restTemplate;
-        // adds interceptor to rest template for adding X-Chatter-Entity-Encoding=false header
-        // this header informs Salesforce not to encode special characters and to return as is.
-        this.restTemplate = addInterceptors(restTemplate);
+        configureRestTemplate();
     }
-
 
     @Override
     public SalesforceProfile getUserProfile() {
@@ -37,9 +35,9 @@ public class ChatterTemplate extends AbstractSalesForceOperations<Salesforce> im
     }
 
     @Override
-    public SalesforceProfile getUserProfile(String userId) {
+    public SalesforceProfile getUserProfile(final String userId) {
         requireAuthorization();
-        return restTemplate.getForObject(api.getBaseUrl() + "/v23.0/chatter/users/{id}",
+        return this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.Chatter.USER_BY_ID,
                 SalesforceProfile.class, userId);
     }
 
@@ -49,36 +47,39 @@ public class ChatterTemplate extends AbstractSalesForceOperations<Salesforce> im
     }
 
     @Override
-    public Status getStatus(String userId) {
+    public Status getStatus(final String userId) {
         requireAuthorization();
 
-        JsonNode node = restTemplate.getForObject(api.getBaseUrl() + "/v23.0/chatter/users/{userId}/status",
+        final JsonNode node = this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.Chatter.USER_STATUS,
                 JsonNode.class, userId);
-        return api.readObject(node.get("body"), Status.class);
+        return this.api.readObject(node.get("body"), Status.class);
     }
 
-    public Status updateStatus(String message) {
+    @Override
+    public Status updateStatus(final String message) {
         return updateStatus("me", message);
     }
 
     @Override
-    public Status updateStatus(String userId, String message) {
+    public Status updateStatus(final String userId, final String message) {
         requireAuthorization();
 
-        MultiValueMap<String, String> post = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> post = new LinkedMultiValueMap<String, String>();
         post.add("text", message);
-        JsonNode node = restTemplate.postForObject(api.getBaseUrl() + "/v23.0/chatter/users/{userId}/status",
+        final JsonNode node = this.restTemplate.postForObject(this.api.getBaseUrl() + Endpoints.Chatter.USER_STATUS,
                 post, JsonNode.class, userId);
-        return api.readObject(node.get("body"), Status.class);
+        return this.api.readObject(node.get("body"), Status.class);
     }
 
-    private RestTemplate addInterceptors(RestTemplate restTemplate) {
-        Map<String, String> headers = new HashMap<String, String>();
+    /**
+     * Adds interceptor to rest template for adding X-Chatter-Entity-Encoding=false header.
+     * This header informs Salesforce not to encode special characters and to return as is.
+     */
+    private void configureRestTemplate() {
+        final Map<String, String> headers = new HashMap<String, String>();
         headers.put("X-Chatter-Entity-Encoding", "false");
 
-        restTemplate.getInterceptors().add(new HeaderAddingInterceptor(headers));
-
-        return restTemplate;
+        this.restTemplate.getInterceptors().add(new HeaderAddingInterceptor(headers));
     }
 
 }

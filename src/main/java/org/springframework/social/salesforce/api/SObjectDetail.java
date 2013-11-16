@@ -3,73 +3,68 @@ package org.springframework.social.salesforce.api;
 import java.util.List;
 
 /**
+ * Describes the detail for an SObject.
+ * 
  * @author Umut Utkan
  */
 public class SObjectDetail extends SObjectSummary {
 
     private List<Field> fields;
-
     private List<Relationship> childRelationships;
-
     private boolean listviewable;
-
     private boolean lookupLayoutable;
-
     private List<RecordTypeInfo> recordTypeInfos;
-
     private boolean searchLayoutable;
-
 
     public SObjectDetail() {
 
     }
 
-
     public List<Field> getFields() {
-        return fields;
+        return this.fields;
     }
 
-    public void setFields(List<Field> fields) {
+    public void setFields(final List<Field> fields) {
         this.fields = fields;
     }
 
     public List<Relationship> getChildRelationships() {
-        return childRelationships;
+        return this.childRelationships;
     }
 
-    public void setChildRelationships(List<Relationship> childRelationships) {
+    public void setChildRelationships(final List<Relationship> childRelationships) {
         this.childRelationships = childRelationships;
     }
 
     public boolean isListviewable() {
-        return listviewable;
+        return this.listviewable;
     }
 
-    public void setListviewable(boolean listviewable) {
+    public void setListviewable(final boolean listviewable) {
         this.listviewable = listviewable;
     }
 
     public boolean isLookupLayoutable() {
-        return lookupLayoutable;
+        return this.lookupLayoutable;
     }
 
-    public void setLookupLayoutable(boolean lookupLayoutable) {
+    public void setLookupLayoutable(final boolean lookupLayoutable) {
         this.lookupLayoutable = lookupLayoutable;
     }
 
     public List<RecordTypeInfo> getRecordTypeInfos() {
-        return recordTypeInfos;
+        return this.recordTypeInfos;
     }
 
-    public void setRecordTypeInfos(List<RecordTypeInfo> recordTypeInfos) {
+    public void setRecordTypeInfos(final List<RecordTypeInfo> recordTypeInfos) {
         this.recordTypeInfos = recordTypeInfos;
     }
 
     public boolean isSearchLayoutable() {
-        return searchLayoutable;
+        return this.searchLayoutable;
     }
 
-    public void setSearchLayoutable(boolean searchLayoutable) {
+    public void setSearchLayoutable(final boolean searchLayoutable) {
         this.searchLayoutable = searchLayoutable;
     }
 

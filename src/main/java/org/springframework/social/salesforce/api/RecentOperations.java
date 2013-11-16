@@ -9,6 +9,11 @@ import java.util.List;
  */
 public interface RecentOperations {
 
+    /**
+     * Fetch the recent activity.
+     * 
+     * @return List of recent activity
+     */
     List<ResultItem> recent();
 
 }

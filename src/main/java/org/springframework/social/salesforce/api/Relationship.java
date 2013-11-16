@@ -1,6 +1,8 @@
 package org.springframework.social.salesforce.api;
 
 /**
+ * Defines a relationship in Salesforce.
+ * 
  * @author Umut Utkan
  */
 public class Relationship {
@@ -17,47 +19,45 @@ public class Relationship {
 
     private String childSObject;
 
-
-    public Relationship(String field, String relationshipName, String childObject) {
+    public Relationship(final String field, final String relationshipName, final String childObject) {
         this.field = field;
         this.relationshipName = relationshipName;
         this.childSObject = childObject;
     }
 
-
     public String getField() {
-        return field;
+        return this.field;
     }
 
     public String getRelationshipName() {
-        return relationshipName;
+        return this.relationshipName;
     }
 
     public String getChildSObject() {
-        return childSObject;
+        return this.childSObject;
     }
 
     public boolean isDeprecatedAndHidden() {
-        return deprecatedAndHidden;
+        return this.deprecatedAndHidden;
     }
 
-    public void setDeprecatedAndHidden(boolean deprecatedAndHidden) {
+    public void setDeprecatedAndHidden(final boolean deprecatedAndHidden) {
         this.deprecatedAndHidden = deprecatedAndHidden;
     }
 
     public boolean isCascadeDelete() {
-        return cascadeDelete;
+        return this.cascadeDelete;
     }
 
-    public void setCascadeDelete(boolean cascadeDelete) {
+    public void setCascadeDelete(final boolean cascadeDelete) {
         this.cascadeDelete = cascadeDelete;
     }
 
     public boolean isRestrictedDelete() {
-        return restrictedDelete;
+        return this.restrictedDelete;
     }
 
-    public void setRestrictedDelete(boolean restrictedDelete) {
+    public void setRestrictedDelete(final boolean restrictedDelete) {
         this.restrictedDelete = restrictedDelete;
     }
 

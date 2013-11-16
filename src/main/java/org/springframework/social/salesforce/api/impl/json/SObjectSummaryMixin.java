@@ -1,12 +1,12 @@
 package org.springframework.social.salesforce.api.impl.json;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- * {@see org.springframework.social.salesforce.api.SObjectSummary} Mixin for api v23.0.
+ * Mixin for {@link org.springframework.social.salesforce.api.SObjectSummary}.
  *
  * @author Umut Utkan
  */
@@ -70,11 +70,14 @@ public class SObjectSummaryMixin {
     @JsonProperty("retriveable")
     boolean retrieveable;
 
-    @JsonProperty("endeletable")
+    @JsonProperty("undeletable")
     boolean undeletable;
 
     @JsonProperty("triggerable")
     boolean triggerable;
 
+    public SObjectSummaryMixin() {
+        
+    }
 
 }

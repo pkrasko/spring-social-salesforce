@@ -1,11 +1,16 @@
 package org.springframework.social.salesforce.api.impl;
 
-import org.codehaus.jackson.JsonNode;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.social.salesforce.SalesforceConstants.Endpoints;
 import org.springframework.social.salesforce.api.SObjectDetail;
 import org.springframework.social.salesforce.api.SObjectOperations;
 import org.springframework.social.salesforce.api.SObjectSummary;
@@ -15,76 +20,74 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Default implementation of SObjectOperations.
- *
+ * 
  * @author Umut Utkan
  */
 public class SObjectsTemplate extends AbstractSalesForceOperations<Salesforce> implements SObjectOperations {
 
     private RestTemplate restTemplate;
 
-    public SObjectsTemplate(Salesforce api, RestTemplate restTemplate) {
+    public SObjectsTemplate(final Salesforce api, final RestTemplate restTemplate) {
         super(api);
         this.restTemplate = restTemplate;
     }
 
-
     @Override
     public List<Map> getSObjects() {
         requireAuthorization();
-        JsonNode dataNode = restTemplate.getForObject(api.getBaseUrl() + "/v23.0/sobjects", JsonNode.class);
-        return api.readList(dataNode.get("sobjects"), Map.class);
+        final JsonNode dataNode = this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.SObjects.ROOT, JsonNode.class);
+        return this.api.readList(dataNode.get("sobjects"), Map.class);
     }
 
     @Override
-    public SObjectSummary getSObject(String name) {
+    public SObjectSummary getSObject(final String name) {
         requireAuthorization();
-        JsonNode node = restTemplate.getForObject(api.getBaseUrl() + "/v23.0/sobjects/{name}", JsonNode.class, name);
-        return api.readObject(node.get("objectDescribe"), SObjectSummary.class);
+        final JsonNode node = this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.SObjects.BY_NAME, JsonNode.class, name);
+        return this.api.readObject(node.get("objectDescribe"), SObjectSummary.class);
     }
 
     @Override
-    public SObjectDetail describeSObject(String name) {
+    public SObjectDetail describeSObject(final String name) {
         requireAuthorization();
-        return restTemplate.getForObject(api.getBaseUrl() + "/v23.0/sobjects/{name}/describe", SObjectDetail.class, name);
+        return this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.SObjects.DESCRIBE_BY_NAME, SObjectDetail.class, name);
     }
 
     @Override
-    public Map getRow(String name, String id, String... fields) {
+    public Map getRow(final String name, final String id, final String... fields) {
         requireAuthorization();
-        URIBuilder builder = URIBuilder.fromUri(api.getBaseUrl() + "/v23.0/sobjects/" + name + "/" + id);
+        final String uriPath = Endpoints.buildEndpoint(this.api.getBaseUrl() + Endpoints.SObjects.BY_ROW, name, id);
+        final URIBuilder builder = URIBuilder.fromUri(uriPath);
         if (fields.length > 0) {
             builder.queryParam("fields", StringUtils.arrayToCommaDelimitedString(fields));
         }
-        return restTemplate.getForObject(builder.build(), Map.class);
+        return this.restTemplate.getForObject(builder.build(), Map.class);
     }
 
     @Override
-    public InputStream getBlob(String name, String id, String field) {
+    public InputStream getBlob(final String name, final String id, final String field) {
         requireAuthorization();
-        return restTemplate.execute(api.getBaseUrl() + "/v23.0/sobjects/{name}/{id}/{field}",
+        return this.restTemplate.execute(this.api.getBaseUrl() + Endpoints.SObjects.BY_BLOB,
                 HttpMethod.GET, null, new ResponseExtractor<InputStream>() {
-            @Override
-            public InputStream extractData(ClientHttpResponse response) throws IOException {
-                return response.getBody();
-            }
-        }, name, id, field);
+
+                    @Override
+                    public InputStream extractData(final ClientHttpResponse response) throws IOException {
+                        return response.getBody();
+                    }
+                }, name, id, field);
     }
 
     @Override
     @SuppressWarnings("rawtypes")
-    public Map<?, ?> create(String name, Map<String, String> fields) {
+    public Map<?, ?> create(final String name, final Map<String, String> fields) {
         requireAuthorization();
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Map> entity = new HttpEntity<Map>(fields, headers);
-        return restTemplate.postForObject(api.getBaseUrl() + "/v23.0/sobjects/{name}", entity, Map.class, name);
+        final HttpEntity<Map> entity = new HttpEntity<Map>(fields, headers);
+        return this.restTemplate.postForObject(this.api.getBaseUrl() + Endpoints.SObjects.BY_NAME, entity, Map.class, name);
     }
 
 }
