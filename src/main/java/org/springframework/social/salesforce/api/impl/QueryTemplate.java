@@ -6,8 +6,8 @@ import org.springframework.social.salesforce.SalesforceConstants.Endpoints;
 import org.springframework.social.salesforce.api.QueryOperations;
 import org.springframework.social.salesforce.api.QueryResult;
 import org.springframework.social.salesforce.api.Salesforce;
-import org.springframework.social.support.URIBuilder;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * Default implementation of QueryOperations.
@@ -26,7 +26,7 @@ public class QueryTemplate extends AbstractSalesForceOperations<Salesforce> impl
     @Override
     public QueryResult query(final String query) {
         requireAuthorization();
-        final URI uri = URIBuilder.fromUri(this.api.getBaseUrl() + Endpoints.Query.ROOT).queryParam("q", query).build();
+        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.ROOT).queryParam("q", query).build().toUri();
         return this.restTemplate.getForObject(uri, QueryResult.class);
     }
 
@@ -36,7 +36,8 @@ public class QueryTemplate extends AbstractSalesForceOperations<Salesforce> impl
         if (pathOrToken.contains("/")) {
             return this.restTemplate.getForObject(this.api.getBaseUrl() + pathOrToken, QueryResult.class);
         }
-        return this.restTemplate.getForObject(this.api.getBaseUrl() + Endpoints.Query.NEXT_PAGE, QueryResult.class, pathOrToken);
+        
+        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.NEXT_PAGE).buildAndExpand(pathOrToken).toUri();
+        return this.restTemplate.getForObject(uri, QueryResult.class);
     }
-
 }

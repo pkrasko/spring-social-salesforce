@@ -4,19 +4,32 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.social.salesforce.api.QueryResult;
 import org.springframework.social.salesforce.api.SObjectDetail;
 import org.springframework.social.salesforce.api.Salesforce;
 import org.springframework.social.salesforce.client.BaseSalesforceFactory;
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 /**
  * CLI.
  */
 public final class SalesforceCLI {
+    
+    private static ObjectMapper mapper = new ObjectMapper();
+    static {
+        mapper.configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true);
+        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    }
     
     private SalesforceCLI() {
         
@@ -62,6 +75,12 @@ public final class SalesforceCLI {
         factory.setAuthorizeUrl(url);
         final Salesforce template = factory.create(username, password, secretToken);
         
+        final QueryResult r = template.queryOperations().query("select jp.id, jp.hiring_manager__r.id, jp.hiring_manager__r.email, jp.hiring_manager__r.name, "
+                + "jp.Title__c, jp.Description__c, jp.skills__c, jp.state__c, jp.bonus__c, jp.requisitionNumber__c from Job_Posting__c jp where state__c ='open'");
+        
+        
+        System.out.println(toJsonFormat(r));
+        
         final List<Map> sobjects = template.sObjectsOperations().getSObjects();
         for (Map m : sobjects) {
             final String sobjectName = (String)m.get("name");
@@ -83,6 +102,16 @@ public final class SalesforceCLI {
             }
         }
         
+    }
+    
+    private static String toJsonFormat(final Object obj) {
+        try {
+            final StringWriter w = new StringWriter();
+            mapper.writeValue(w, obj);
+            return w.toString();
+        } catch (final IOException exn) {
+            throw new IllegalStateException(exn);
+        }
     }
 
 }
