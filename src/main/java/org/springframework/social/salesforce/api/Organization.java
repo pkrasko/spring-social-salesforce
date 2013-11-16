@@ -8,6 +8,9 @@ import java.util.Locale;
  */
 public class Organization extends AbstractSalesforceObject {
 
+    /** Default SN. */
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private Date createdAt;
     private Date lastModifiedAt;
@@ -144,6 +147,7 @@ public class Organization extends AbstractSalesforceObject {
 
     /**
      * {@inheritDoc}
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

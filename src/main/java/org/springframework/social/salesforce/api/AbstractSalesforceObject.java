@@ -1,5 +1,6 @@
 package org.springframework.social.salesforce.api;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Common fields.
  */
-abstract class AbstractSalesforceObject {
+abstract class AbstractSalesforceObject implements Serializable {
+
+    /** Default SN. */
+    private static final long serialVersionUID = 1L;
 
     private static final String INVALID_TOKEN = "INVALID_SESSION_ID";
 

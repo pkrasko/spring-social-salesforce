@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Identity extends AbstractSalesforceObject {
 
+    /** SN. */
+    private static final long serialVersionUID = -4541429614913641122L;
+
     @JsonProperty("id")
     private String id;
 
@@ -18,7 +21,7 @@ public class Identity extends AbstractSalesforceObject {
 
     @JsonProperty("user_id")
     private String userId;
-    
+
     @JsonProperty("username")
     private String username;
 
@@ -60,9 +63,9 @@ public class Identity extends AbstractSalesforceObject {
 
     @JsonProperty("last_modified_date")
     private Date modifiedAt;
-    
+
     public Identity() {
-        
+
     }
 
     public String getId() {
@@ -201,5 +204,4 @@ public class Identity extends AbstractSalesforceObject {
         this.modifiedAt = modifiedAt;
     }
 
-    
 }

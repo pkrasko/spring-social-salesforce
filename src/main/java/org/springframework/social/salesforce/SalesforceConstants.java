@@ -15,7 +15,7 @@ public final class SalesforceConstants {
     /**
      * Common OAuth constants.
      */
-    public final class OAuthProperties {
+    public static final class OAuthProperties {
         
         public static final String URL_AUTHORIZE = "https://login.salesforce.com/services/oauth2/authorize";
         public static final String URL_TOKEN = "https://login.salesforce.com/services/oauth2/token";
@@ -28,7 +28,7 @@ public final class SalesforceConstants {
     /**
      * Defines well known API Levels.
      */
-    public enum ApiLevel {
+    public static enum ApiLevel {
         V25("25.0"),
         V26("26.0"),
         V27("27.0"),
@@ -101,7 +101,7 @@ public final class SalesforceConstants {
         /**
          * Scope parameter values.
          */
-        public enum ScopeParmValue {
+        public static enum ScopeParmValue {
             /**
              * Allows access to the current, logged-in user's account over the APIs, such as REST API or Bulk API. 
              * This also includes chatter_api, allowing access to Chatter API resources.
@@ -144,7 +144,7 @@ public final class SalesforceConstants {
         /**
          * Display parameter values.
          */
-        public enum DisplayParamValue {
+        public static enum DisplayParamValue {
             /**
              * Full-page authorization screen. This is the default value if none is specified.
              */
@@ -169,7 +169,7 @@ public final class SalesforceConstants {
         /**
          * It is valid to pass both values, separated by a space, to require the user to both log in and reauthorize.
          */
-        public enum PromptParamValue {
+        public static enum PromptParamValue {
             /**
              * The authorization server must prompt the user for reauthentication, forcing the user to log in again.
              */
@@ -215,7 +215,7 @@ public final class SalesforceConstants {
         /**
          * Possible values for the error parameter.
          */
-        public enum ErrorValue {
+        public static enum ErrorValue {
             access_denied,
             unknown
         }
@@ -223,7 +223,7 @@ public final class SalesforceConstants {
         /**
          * The error description values.
          */
-        public enum ErrorDescriptionValue {
+        public static enum ErrorDescriptionValue {
             
             unsupported_response_type("response type not supported"),
             invalid_client_id("client identifier invalid"),
@@ -306,7 +306,7 @@ public final class SalesforceConstants {
         /**
          * Possible values for the {@link AccessTokenRequest#PARAM_FORMAT} parameter.
          */
-        public enum FormatParamValue {
+        public static enum FormatParamValue {
             urlencoded,
             json,
             xml
@@ -315,7 +315,7 @@ public final class SalesforceConstants {
         /**
          * Possible values for the {@link AccessTokenRequest#PARAM_GRANT_TYPE} parameter.
          */
-        public enum GrantTypeValue {
+        public static enum GrantTypeValue {
             authorization_code,
             refresh_token,
             password;
@@ -385,7 +385,7 @@ public final class SalesforceConstants {
         /**
          * Defines what the client application can access in a Salesforce organization.
          */
-        public enum ScopeParamValue {
+        public static enum ScopeParamValue {
             
             /**
              * Allows access to the current, logged-in user's account over the APIs, such as 
@@ -470,7 +470,7 @@ public final class SalesforceConstants {
         /**
          * API endpoints.
          */
-        public final class Api {
+        public static final class Api {
             
             public static final String VERSIONS = ROOT;
             public static final String SERVICES = ROOT + "/v{version}";
@@ -483,7 +483,7 @@ public final class SalesforceConstants {
         /**
          * Chatter endpoints.
          */
-        public final class Chatter {
+        public static final class Chatter {
             
             
             public static final String ROOT =  "/chatter/users";
@@ -500,7 +500,7 @@ public final class SalesforceConstants {
         /**
          * Query endpoints.
          */
-        public final class Query {
+        public static final class Query {
             
             public static final String ROOT = "/query";
             public static final String NEXT_PAGE = ROOT + "/{token}";
@@ -513,7 +513,7 @@ public final class SalesforceConstants {
         /**
          * Recent endpoints.
          */
-        public final class Recent {
+        public static final class Recent {
             
             public static final String ROOT = "/recent";
             
@@ -525,7 +525,7 @@ public final class SalesforceConstants {
         /**
          * Search endpoints.
          */
-        public final class Search {
+        public static final class Search {
             
             public static final String ROOT = "/search";
             
@@ -537,7 +537,7 @@ public final class SalesforceConstants {
         /**
          * SObjects endpoints.
          */
-        public final class SObjects {
+        public static final class SObjects {
             
             public static final String ROOT = "/sobjects";
             public static final String BY_NAME = ROOT + "/{name}";
@@ -553,7 +553,7 @@ public final class SalesforceConstants {
         /**
          * Standard Object names.
          */
-        public enum StandardObjects {
+        public static enum StandardObjects {
             Organization,
             User
         }

@@ -6,6 +6,9 @@ package org.springframework.social.salesforce.api;
  */
 public final class ApiProfile extends AbstractSalesforceObject {
 
+    /** Default SN. */
+    private static final long serialVersionUID = 1L;
+
     private String enterprise;
     private String metadata;
     private String partner;

@@ -1,6 +1,7 @@
 package org.springframework.social.salesforce.api.impl;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class SalesforceErrorHandler extends DefaultResponseErrorHandler {
     public void handleError(final ClientHttpResponse response) throws IOException {
         final Map<String, Object> errorDetails = extractErrorDetailsFromResponse(response);
         if (errorDetails == null) {
-            handleUncategorizedError(response, errorDetails);
+            handleUncategorizedError(response, Collections.EMPTY_MAP);
         }
 
         handleSalesforceError(response.getStatusCode(), errorDetails);

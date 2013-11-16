@@ -7,6 +7,9 @@ import java.util.Date;
  */
 public final class ChatterStatus extends AbstractSalesforceObject {
 
+    /** Default SN. */
+    private static final long serialVersionUID = 1L;
+
     private Date createdDate;
     private String body;
 

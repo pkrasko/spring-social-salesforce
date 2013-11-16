@@ -8,6 +8,9 @@ import java.util.Locale;
  */
 public class User extends AbstractSalesforceObject {
 
+    /** Default SN. */
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private String accountId;
     private String federationId;
