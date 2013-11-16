@@ -1,8 +1,3 @@
-/*
- * Copyright 2013 Mobile Iron, Inc.
- * All rights reserved.
- */
-
 package org.springframework.social.salesforce.api;
 
 import java.util.Date;

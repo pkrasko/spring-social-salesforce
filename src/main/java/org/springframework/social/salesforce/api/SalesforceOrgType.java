@@ -1,11 +1,4 @@
-/**
- * Copyright 2013 Mobile Iron, Inc.
- * All rights reserved.
- */
-
 package org.springframework.social.salesforce.api;
-
-
 
 /**
  * Enum for Salesforce Organization types.
