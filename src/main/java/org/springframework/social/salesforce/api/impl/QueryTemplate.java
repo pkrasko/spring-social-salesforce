@@ -26,7 +26,7 @@ public class QueryTemplate extends AbstractSalesForceOperations<Salesforce> impl
     @Override
     public QueryResult query(final String query) {
         requireAuthorization();
-        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.ROOT).queryParam("q", query).build().toUri();
+        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.ROOT).queryParam("q", query).build().encode().toUri();
         return this.restTemplate.getForObject(uri, QueryResult.class);
     }
 
@@ -37,7 +37,7 @@ public class QueryTemplate extends AbstractSalesForceOperations<Salesforce> impl
             return this.restTemplate.getForObject(this.api.getBaseUrl() + pathOrToken, QueryResult.class);
         }
         
-        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.NEXT_PAGE).buildAndExpand(pathOrToken).toUri();
+        final URI uri = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl()).path(Endpoints.Query.NEXT_PAGE).buildAndExpand(pathOrToken).encode().toUri();
         return this.restTemplate.getForObject(uri, QueryResult.class);
     }
 }

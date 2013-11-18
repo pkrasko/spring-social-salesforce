@@ -20,6 +20,14 @@ import static org.springframework.social.test.client.ResponseCreators.*;
  * @author Umut Utkan
  */
 public class QueryTemplateTest extends AbstractSalesforceTest {
+    
+    @Test
+    public void withTimestamps() {
+        this.mockServer.expect(requestTo(VERSION_URL + "/query?q=2013-11-16T22:36:06%2B0000"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withResponse(loadResource("query-simple.json"), this.responseHeaders));
+        this.salesforce.queryOperations().query("2013-11-16T22:36:06+0000"); // make sure that + gets converted to %2B
+    }
 
     @Test
     public void simpleQuery() {
@@ -43,7 +51,7 @@ public class QueryTemplateTest extends AbstractSalesforceTest {
     @Test
     public void whereQuery() {
         this.mockServer
-                .expect(requestTo(VERSION_URL + "/query?q=SELECT%20Id%20FROM%20Contact%20WHERE%20Name%20LIKE%20'U%25'%20AND%20MailingCity%20=%20'Istanbul'"))
+                .expect(requestTo(VERSION_URL + "/query?q=SELECT%20Id%20FROM%20Contact%20WHERE%20Name%20LIKE%20'U%25'%20AND%20MailingCity%20%3D%20'Istanbul'"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withResponse(loadResource("query-where.json"), this.responseHeaders));
         final QueryResult result = this.salesforce.queryOperations().query("SELECT Id FROM Contact WHERE Name LIKE 'U%' AND MailingCity = 'Istanbul'");

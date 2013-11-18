@@ -19,6 +19,7 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -88,6 +89,19 @@ public class SObjectsTemplate extends AbstractSalesForceOperations<Salesforce> i
         headers.setContentType(MediaType.APPLICATION_JSON);
         final HttpEntity<Map> entity = new HttpEntity<Map>(fields, headers);
         return this.restTemplate.postForObject(this.api.getBaseUrl() + Endpoints.SObjects.BY_NAME, entity, Map.class, name);
+    }
+
+    @Override
+    public void update(final String name, final String id, final Map<String, String> fields) {
+        requireAuthorization();
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        final HttpEntity<Map> entity = new HttpEntity<Map>(fields, headers);
+        final String url = UriComponentsBuilder.fromHttpUrl(this.api.getBaseUrl())
+                .path(Endpoints.SObjects.BY_NAME)
+                .path("/" + id)
+                .buildAndExpand(name).toUriString();
+        this.restTemplate.exchange(url, HttpMethod.PATCH, entity, Map.class);
     }
 
 }

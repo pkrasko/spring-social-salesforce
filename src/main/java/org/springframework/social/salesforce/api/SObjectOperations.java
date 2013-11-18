@@ -58,9 +58,18 @@ public interface SObjectOperations {
      * Create a new row for an SObject.
      * 
      * @param name The SObject name
-     * @param fields A map containing the field name and value
+     * @param fields A map containing the field names and values
      * @return SObject
      */
     Map<?, ?> create(String name, Map<String, String> fields);
+    
+    /**
+     * Update an existing row for an SObject.
+     * 
+     * @param name The SObject name
+     * @param id The ID for the row being modified.
+     * @param fields A map containing the field names and values
+     */
+    void update(String name, String id,  Map<String, String> fields);
 
 }
